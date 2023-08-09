@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Cart Page{% endblock %}
+
+{% block name %}Cart{% endblock %}
+ 
+{% block content %}
+
+        {% for i in cart_list %}
+            {% if user.username == i.user.username %}
+                <p>{{ i.product.name }}</p>
+                    <img src="{{i.product.img.url}}" width="55px" alt="">
+                    <p>{{ i.product.price }}</p>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'delete_to_cart' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="prod_id" value="{{ i.id }}">Delete</button>
+                    </form>
+                {% endif %}
+                <hr>
+            {% endif %}
+
+        {% endfor %}
+
+{% endblock %}
